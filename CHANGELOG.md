@@ -4,6 +4,22 @@ All notable changes to `phil/faq-bundle` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## 0.1.1-alpha - 2026-11-25
+
+### Changed
+
+- The development requirements take `easycorp/easyadmin-bundle` 5.10.4 or later, the release that fixes
+  GHSA-f7rw-7wx5-3c54: a link to a route, like the menu links of this bundle, passed its `routeParams` to the controller
+  of that route as arguments.
+
+### Security
+
+- The vote tokens were signed with the HMAC under `%kernel.secret%` itself, which other bundles keyed their own hashes
+  with. `VoteTokens` derives its key by HKDF-SHA256 under `phil_faq.vote_token` (`VoteTokens::USAGE`). A page served
+  before the update votes no more: it is served again with a new token.
+- Conflicts with `easycorp/easyadmin-bundle` below 5.10.4, the release that fixes GHSA-f7rw-7wx5-3c54: an application
+  cannot install this bundle next to a vulnerable EasyAdmin, which stays optional.
+
 ## 0.1.0-alpha - 2026-11-24
 
 ### Added
